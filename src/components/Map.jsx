@@ -5,6 +5,10 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { MapContext } from '../App'
 import Container from './Container'
 import styled from 'styled-components'
+import mapboxgl from 'mapbox-gl'
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const MapContainer = styled.div`
     width: 100%;
