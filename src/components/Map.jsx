@@ -39,8 +39,6 @@ export default function Map() {
         longitude: 0
     })
 
-    const accessToken = 'pk.eyJ1IjoibWF0dGUxOTg2IiwiYSI6ImNrd3c2OHBobjAwcDEydmxhMWYweHIydngifQ.KDPn3rWaOyr1kGtoO9fDLw'
-
     useEffect(() => {
         if (coords) {
             setViewport(prevState => {
@@ -71,7 +69,7 @@ export default function Map() {
                     height="100%"
                     onViewportChange={setViewport}
                     mapStyle="mapbox://styles/mapbox/streets-v11"
-                    mapboxApiAccessToken={accessToken}
+                    mapboxApiAccessToken={process.env.REACT_APP_MAP_TOKEN}
                 >
                     <Marker
                         latitude={markerLocation.latitude}
