@@ -4,7 +4,7 @@ import Container from './components/Container';
 import Header from './components/Header';
 import Map from './components/Map';
 import TextContent from './components/TextContent';
-import { accuweatherAPI_KEY, accuWeather_BASE_URL } from './utils';
+import { accuWeather_BASE_URL } from './utils';
 
 const MapContext = createContext({})
 
@@ -35,7 +35,7 @@ function App() {
 
   useEffect(() => {
     if (coords) {
-      const url = `${accuWeather_BASE_URL}/locations/v1/cities/geoposition/search?apikey=${accuweatherAPI_KEY}&q=${coords.lat}%2C${coords.lng}`
+      const url = `${accuWeather_BASE_URL}/locations/v1/cities/geoposition/search?apikey=${process.env.REACT_APP_API_KEY}&q=${coords.lat}%2C${coords.lng}`
       fetch(url)
         .then(res => {
           if (res.ok) {
@@ -55,7 +55,7 @@ function App() {
 
   useEffect(() => {
     if (currentLocation) {
-      const url = `${accuWeather_BASE_URL}/currentconditions/v1/${currentLocation.Key}?apikey=${accuweatherAPI_KEY}`
+      const url = `${accuWeather_BASE_URL}/currentconditions/v1/${currentLocation.Key}?apikey=${process.env.REACT_APP_API_KEY}`
       fetch(url)
         .then(res => {
           if (res.ok) {

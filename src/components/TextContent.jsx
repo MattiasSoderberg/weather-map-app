@@ -11,7 +11,7 @@ const ColoredContainer = styled.div`
     padding: 2rem 2rem;
     margin: 1rem;
     border-radius: 0.2rem;
-    border: 1.5px solid #264653;
+    transition: background ease 1s;
 `
 const HeadingContainer = styled.div`
     width: 60%;
@@ -34,20 +34,7 @@ const StyledImage = styled.img`
     margin-left: 2rem;
 `
 
-// {currentWeather && currentLocation &&
-//     <Container width={35} justify="center">
-//         <Container width={80} direction="column" align="center">
-//             <Container>
-//                 <StyledInfoHeading1>{currentLocation.EnglishName} <span>{currentWeather.WeatherIcon}</span></StyledInfoHeading1>
-//                 <StyledImage src={`../../public/icons/1-s.png`} />
-//             </Container>
-//             <ColoredContainer background={temperatureColor(currentWeather.Temperature.Metric.Value)}>
-//                 <StyledInfoText>Current temperature: {currentWeather.Temperature.Metric.Value} {currentWeather.Temperature.Metric.Unit}</StyledInfoText>
-//                 <StyledInfoText>Weather: {currentWeather.WeatherText}</StyledInfoText>
-//             </ColoredContainer>
-//         </Container>
-//     </Container>
-// }
+
 
 export default function TextContent() {
     const { currentWeather, currentLocation } = useContext(MapContext)
@@ -55,19 +42,21 @@ export default function TextContent() {
     console.log(currentLocation)
     return (
         <>
-
-            <Container width={35} justify="center">
-                <Container width={80} direction="column" align="center">
-                    <HeadingContainer>
-                        <StyledInfoHeading1>Solvalla <span></span></StyledInfoHeading1>
-                        <StyledImage src={`icons/${7}-s.png`} />
-                    </HeadingContainer>
-                    <ColoredContainer background={temperatureColor(2)}>
-                        <StyledInfoText>Current temperature:</StyledInfoText>
-                        <StyledInfoText>Weather:</StyledInfoText>
-                    </ColoredContainer>
+            {currentWeather && currentLocation &&
+                <Container width={35} justify="center">
+                    <Container width={80} direction="column" align="center">
+                        <HeadingContainer>
+                            <StyledInfoHeading1>{currentLocation.EnglishName}</StyledInfoHeading1>
+                            <StyledImage src={`/icons/${currentWeather.WeatherIcon}-s.png`} />
+                        </HeadingContainer>
+                        <ColoredContainer background={temperatureColor(currentWeather.Temperature.Metric.Value)}>
+                            <StyledInfoText>Current temperature: {currentWeather.Temperature.Metric.Value} {currentWeather.Temperature.Metric.Unit}</StyledInfoText>
+                            <StyledInfoText>Weather: {currentWeather.WeatherText}</StyledInfoText>
+                        </ColoredContainer>
+                    </Container>
                 </Container>
-            </Container>
+            }
+
         </>
     )
 }

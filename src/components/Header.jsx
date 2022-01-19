@@ -7,9 +7,10 @@ const HeaderContainer = styled.div`
     background: #264653;
     display: flex;
     align-items: center;
+    border-bottom: 7px solid #2A9D8F;
 `
 const StyledHeadingHeader = styled.h1`
-    font-size: 3rem;
+    font-size: 2.8rem;
     margin: 0 0 0 4rem;
     color: #e76f51;
     font-weight: 500;
@@ -37,7 +38,7 @@ const FormButton = styled.button`
     background: #264653;
     color: #f9f9f9;
     letter-spacing: 1px;
-    transition: transform ease 100ms;
+    transition: transform ease-out 100ms;
 
     &:hover {
         background: #396480;
@@ -64,7 +65,7 @@ export default function Header() {
             <StyledHeadingHeader>WeatherMapApp</StyledHeadingHeader>
             <FormContainer>
                 <form onSubmit={handleOnSubmit}>
-                    <Input value={searchValue} onChange={e => setSearchValue(e.target.value)} placeholder="Search" />
+                    <Input value={searchValue} onChange={e => setSearchValue(e.target.value)} placeholder="Search Location" />
                     <FormButton>Search</FormButton>
                 </form>
             </FormContainer>

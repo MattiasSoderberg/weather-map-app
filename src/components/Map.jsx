@@ -6,6 +6,11 @@ import { MapContext } from '../App'
 import Container from './Container'
 import styled from 'styled-components'
 
+const MapContainer = styled.div`
+    width: 100%;
+    border-left: 2px solid #264653;
+`
+
 const DisplayContainer = styled.div`
     width: 8rem;
     height: 3rem;
@@ -59,28 +64,30 @@ export default function Map() {
 
     return (
         <Container width={65}>
-            <ReactMapGL
-                {...viewport}
-                width="100%"
-                height="100%"
-                onViewportChange={setViewport}
-                mapStyle="mapbox://styles/mapbox/streets-v11"
-                mapboxApiAccessToken={accessToken}
-            >
-                <Marker
-                    latitude={markerLocation.latitude}
-                    longitude={markerLocation.longitude}
-                    draggable={true}
-                    onDrag={onMarkerDrag}
-                    onDragEnd={onMarkerDragEnd}
+            <MapContainer>
+                <ReactMapGL
+                    {...viewport}
+                    width="100%"
+                    height="100%"
+                    onViewportChange={setViewport}
+                    mapStyle="mapbox://styles/mapbox/streets-v11"
+                    mapboxApiAccessToken={accessToken}
                 >
-                    <Pin size={20} />
-                </Marker>
-                <DisplayContainer>
-                    <DisplayText>Latitude: {roundFloat(markerLocation.latitude)}</DisplayText>
-                    <DisplayText>Longitude: {roundFloat(markerLocation.longitude)}</DisplayText>
-                </DisplayContainer>
-            </ReactMapGL>
+                    <Marker
+                        latitude={markerLocation.latitude}
+                        longitude={markerLocation.longitude}
+                        draggable={true}
+                        onDrag={onMarkerDrag}
+                        onDragEnd={onMarkerDragEnd}
+                    >
+                        <Pin size={20} />
+                    </Marker>
+                    <DisplayContainer>
+                        <DisplayText>Latitude: {roundFloat(markerLocation.latitude)}</DisplayText>
+                        <DisplayText>Longitude: {roundFloat(markerLocation.longitude)}</DisplayText>
+                    </DisplayContainer>
+                </ReactMapGL>
+            </MapContainer>
         </Container>
     )
 }
