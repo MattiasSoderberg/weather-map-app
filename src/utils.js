@@ -1,4 +1,4 @@
-export const accuWeather_BASE_URL = "http://dataservice.accuweather.com"
+export const accuWeather_BASE_URL = "https://dataservice.accuweather.com"
 
 export const temperatureColor = (temp) => {
     const tempColors = {
