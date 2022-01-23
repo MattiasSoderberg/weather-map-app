@@ -9,7 +9,7 @@ const DropdownContainer = styled.div`
     border: 2px solid #264653;
     position: absolute;
     top: 90px;
-    left: 50%;
+    left: 38%;
     z-index: 1;
     box-shadow: 0px 0px 8px 3px #264653;
 `

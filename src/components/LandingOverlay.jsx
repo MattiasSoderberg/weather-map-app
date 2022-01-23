@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { MapContext } from '../App'
 
@@ -27,14 +27,30 @@ const OverlayText = styled.p`
     font-size: 1.5rem;
     margin: 0;
 `
+const OverlayTextSmall = styled.p`
+    font-size: 0.9rem;
+    margin: 0;
+`
 
 export default function LandingOverlay() {
+    const [showWelcome, setShowWelcome] = useState(true)
     const { setShowLandingMessage } = useContext(MapContext)
+
+    const handleOnOverlayClick = () => {
+        setShowLandingMessage(false)
+        setShowWelcome(false)
+        console.log(showWelcome)
+    }
+
     return (
-        <Overlay onClick={e => setShowLandingMessage(false)}>
-            <OverlayH2>Welcome to WeatherMapApp</OverlayH2>
-            <OverlayText>Make sure to use the dragable <b>marker</b> to get the weather on the location of your choosing</OverlayText>
-            <OverlayText>or <b>search</b> for a location to both se it on the map aned get the current weather information.</OverlayText>
+        <Overlay onClick={handleOnOverlayClick}>
+            <OverlayH2>
+                {showWelcome ? "Welcome to WeatherMapApp"
+                    : "Instructions"}
+            </OverlayH2>
+            <OverlayText>Use the dragable <b>marker</b> to get the weather on the location you want</OverlayText>
+            <OverlayText>or <b>search</b> for a location to both see it on the map and get the current weather information.</OverlayText>
+            <OverlayTextSmall>Click on the screen to get going</OverlayTextSmall>
         </Overlay>
     )
 }

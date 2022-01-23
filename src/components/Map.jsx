@@ -23,7 +23,7 @@ const DisplayContainer = styled.div`
     flex-direction: column;
     padding: 1rem;
     margin: 0.5rem;
-    border: 2px solid #264653;
+    border: 2.5px solid #264653;
 `
 const DisplayText = styled.p`
     color: #f6f6f6;

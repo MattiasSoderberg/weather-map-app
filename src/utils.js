@@ -15,5 +15,25 @@ export const temperatureColor = (temp) => {
     else if (temp > -5 && temp < 5) return tempColors.fiveToFive
     else if (temp >= 5 && temp < 15) return tempColors.plusFive
     else if (temp >= 15 && temp < 25) return tempColors.plusFiftheen
-    else if (temp >=25) return tempColors.plusTwentyFive
+    else if (temp >= 25) return tempColors.plusTwentyFive
+}
+
+export const getUserLocation = (setCoords) => {
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 4000,
+        maxiumAge: 0
+    }
+
+    function success(pos) {
+        const { latitude, longitude } = pos.coords
+
+        setCoords({ lat: latitude, lng: longitude })
+    }
+
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error, options)
 }

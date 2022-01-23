@@ -6,7 +6,7 @@ import Map from './components/Map';
 import Dropdown from './components/Dropdown';
 import TextContent from './components/TextContent';
 import LandingOverlay from './components/LandingOverlay';
-import { accuWeather_BASE_URL } from './utils';
+import { accuWeather_BASE_URL, getUserLocation } from './utils';
 
 const MapContext = createContext({})
 
@@ -20,23 +20,7 @@ function App() {
   const [searchValue, setSearchValue] = useState("")
 
   useEffect(() => {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 4000,
-      maxiumAge: 0
-    }
-
-    function success(pos) {
-      const { latitude, longitude } = pos.coords
-
-      setCoords({ lat: latitude, lng: longitude })
-    }
-
-    function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
-
-    navigator.geolocation.getCurrentPosition(success, error, options)
+    getUserLocation(setCoords)
   }, [])
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { MapContext } from '../App'
-import { accuWeather_BASE_URL } from '../utils'
+import { accuWeather_BASE_URL, getUserLocation } from '../utils'
 
 const HeaderContainer = styled.div`
     width: 100%;
@@ -41,7 +41,7 @@ const FormButton = styled.button`
     background: #264653;
     color: #f9f9f9;
     letter-spacing: 1px;
-    transition: transform ease-out 100ms;
+    transition: all ease-out 100ms;
 
     &:hover {
         background: #396480;
@@ -51,9 +51,16 @@ const FormButton = styled.button`
         transform: scale(0.95)
     }
 `
+const ButtonContainer = styled.div`
+    margin: 0 3rem 0 0;
+`
+const NavButton = styled(FormButton)`
+    margin: 0 2rem 0 0;
+    font-size: 0.9rem;
+`
 
 export default function Header() {
-    const { searchValue, setSearchValue, setDropdownResults, setIsDropdownVisible } = useContext(MapContext)
+    const { searchValue, setSearchValue, setDropdownResults, setIsDropdownVisible, setCoords, setShowLandingMessage } = useContext(MapContext)
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
@@ -74,13 +81,13 @@ export default function Header() {
 
         if (e.target.value) {
             console.log(e.target.value)
-            setIsDropdownVisible(true)
             setTimeout(() => {
                 fetch(url)
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log(data)
-                        setDropdownResults(data)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    setDropdownResults(data)
+                    setIsDropdownVisible(true)
                     })
             }, 1000)
         } else {
@@ -97,6 +104,10 @@ export default function Header() {
                     <FormButton>Search</FormButton>
                 </form>
             </FormContainer>
+            <ButtonContainer>
+                <NavButton onClick={e => getUserLocation(setCoords)}>Current Location</NavButton>
+                <NavButton onClick={e => setShowLandingMessage(true)}>Welcome Message</NavButton>
+            </ButtonContainer>
         </HeaderContainer>
     )
 }
