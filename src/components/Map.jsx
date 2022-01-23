@@ -18,7 +18,7 @@ const MapContainer = styled.div`
 const DisplayContainer = styled.div`
     width: 8rem;
     height: 3rem;
-    background: #000000bb;
+    background: #264653de;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -26,7 +26,7 @@ const DisplayContainer = styled.div`
     border: 2px solid #264653;
 `
 const DisplayText = styled.p`
-    color: #f9f9f9;
+    color: #f6f6f6;
     margin: 0;
     padding: 0.1rem 0;
 `

@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { MapContext } from '../App'
+import { accuWeather_BASE_URL } from '../utils'
 
 const HeaderContainer = styled.div`
     width: 100%;
@@ -8,6 +10,7 @@ const HeaderContainer = styled.div`
     display: flex;
     align-items: center;
     border-bottom: 7px solid #2A9D8F;
+    z-index: 2;
 `
 const StyledHeadingHeader = styled.h1`
     font-size: 2.8rem;
@@ -50,14 +53,39 @@ const FormButton = styled.button`
 `
 
 export default function Header() {
-    const [searchValue, setSearchValue] = useState("")
+    const { searchValue, setSearchValue, setDropdownResults, setIsDropdownVisible } = useContext(MapContext)
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
 
-        console.log(searchValue)
+        const url = `${accuWeather_BASE_URL}/locations/v1/cities/search?apikey=${process.env.REACT_APP_API_KEY}&q=${searchValue}&language=sv`
 
-        setSearchValue("")
+        if (searchValue) {
+            fetch(url)
+                .then(res => res.json())
+                .then(data => setDropdownResults(data))
+        }
+    }
+
+    const handleOnChange = (e) => {
+        const url = `${accuWeather_BASE_URL}/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${e.target.value}&language=sv`
+
+        setSearchValue(e.target.value)
+
+        if (e.target.value) {
+            console.log(e.target.value)
+            setIsDropdownVisible(true)
+            setTimeout(() => {
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        setDropdownResults(data)
+                    })
+            }, 1000)
+        } else {
+            setIsDropdownVisible(false)
+        }
     }
 
     return (
@@ -65,7 +93,7 @@ export default function Header() {
             <StyledHeadingHeader>WeatherMapApp</StyledHeadingHeader>
             <FormContainer>
                 <form onSubmit={handleOnSubmit}>
-                    <Input value={searchValue} onChange={e => setSearchValue(e.target.value)} placeholder="Search Location" />
+                    <Input value={searchValue} onChange={e => handleOnChange(e)} placeholder="Search Location" />
                     <FormButton>Search</FormButton>
                 </form>
             </FormContainer>

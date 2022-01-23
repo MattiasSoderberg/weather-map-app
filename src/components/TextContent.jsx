@@ -38,8 +38,8 @@ const StyledImage = styled.img`
 
 export default function TextContent() {
     const { currentWeather, currentLocation } = useContext(MapContext)
-    console.log(currentWeather)
-    console.log(currentLocation)
+    // console.log(currentWeather)
+    // console.log(currentLocation)
     return (
         <>
             {currentWeather && currentLocation &&

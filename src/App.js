@@ -3,15 +3,21 @@ import './App.css';
 import Container from './components/Container';
 import Header from './components/Header';
 import Map from './components/Map';
+import Dropdown from './components/Dropdown';
 import TextContent from './components/TextContent';
+import LandingOverlay from './components/LandingOverlay';
 import { accuWeather_BASE_URL } from './utils';
 
 const MapContext = createContext({})
 
 function App() {
+  const [showLandingMessage, setShowLandingMessage] = useState(true)
   const [coords, setCoords] = useState(null)
   const [currentWeather, setCurrentWeather] = useState(null)
   const [currentLocation, setCurrentLocation] = useState(null)
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+  const [dropdownResults, setDropdownResults] = useState([])
+  const [searchValue, setSearchValue] = useState("")
 
   useEffect(() => {
     const options = {
@@ -55,7 +61,7 @@ function App() {
 
   useEffect(() => {
     if (currentLocation) {
-      const url = `${accuWeather_BASE_URL}/currentconditions/v1/${currentLocation.Key}?apikey=${process.env.REACT_APP_API_KEY}`
+      const url = `${accuWeather_BASE_URL}/currentconditions/v1/${currentLocation.Key}?apikey=${process.env.REACT_APP_API_KEY}&language=sv`
       fetch(url)
         .then(res => {
           if (res.ok) {
@@ -71,8 +77,12 @@ function App() {
 
   return (
     <div className="App">
-      <MapContext.Provider value={{ coords, setCoords, currentWeather, currentLocation }}>
+      <MapContext.Provider value={{ coords, setCoords, currentWeather, currentLocation, setIsDropdownVisible, setDropdownResults, searchValue, setSearchValue, setShowLandingMessage }}>
+        {showLandingMessage && <LandingOverlay />}
         <Header />
+        {isDropdownVisible &&
+          <Dropdown results={dropdownResults} />
+        }
         <Container>
           <TextContent />
           <Map />
