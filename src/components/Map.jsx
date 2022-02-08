@@ -16,12 +16,13 @@ const MapContainer = styled.div`
 `
 
 const DisplayContainer = styled.div`
-    width: 8rem;
-    height: 3rem;
+    width: 10rem;
+    height: 4rem;
     background: #264653de;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    justify-content: center;
+    padding: 0.5rem 1rem;
     margin: 0.5rem;
     border: 2.5px solid #264653;
 `
@@ -65,7 +66,7 @@ export default function Map() {
     }
 
     return (
-        <Container width={65}>
+        <Container width={70}>
             <MapContainer>
                 <ReactMapGL
                     {...viewport}
