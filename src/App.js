@@ -7,6 +7,7 @@ import Dropdown from './components/Dropdown';
 import TextContent from './components/TextContent';
 import LandingOverlay from './components/LandingOverlay';
 import { accuWeather_BASE_URL, getUserLocation } from './utils';
+import Footer from './components/Footer';
 
 const MapContext = createContext({})
 
@@ -15,6 +16,7 @@ function App() {
   const [coords, setCoords] = useState(null)
   const [currentWeather, setCurrentWeather] = useState(null)
   const [currentLocation, setCurrentLocation] = useState(null)
+  const [forecast, setForecast] = useState(null)
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const [dropdownResults, setDropdownResults] = useState([])
   const [searchValue, setSearchValue] = useState("")
@@ -45,8 +47,8 @@ function App() {
 
   useEffect(() => {
     if (currentLocation) {
-      const url = `${accuWeather_BASE_URL}/currentconditions/v1/${currentLocation.Key}?apikey=${process.env.REACT_APP_API_KEY}&language=sv`
-      fetch(url)
+      const currentConditionUrl = `${accuWeather_BASE_URL}/currentconditions/v1/${currentLocation.Key}?apikey=${process.env.REACT_APP_API_KEY}&details=true`
+      fetch(currentConditionUrl)
         .then(res => {
           if (res.ok) {
             console.log(res)
@@ -56,12 +58,24 @@ function App() {
           }
         })
         .then(data => setCurrentWeather(data[0]))
+
+      const forecastUrl = `${accuWeather_BASE_URL}/forecasts/v1/hourly/12hour/${currentLocation.Key}?apikey=${process.env.REACT_APP_API_KEY}&metric=true`
+      fetch(forecastUrl)
+        .then(res => {
+          if (res.ok) {
+            console.log(res)
+            return res.json()
+          } else {
+            throw new Error(res.statusText)
+          }
+        })
+        .then(data => setForecast(data))
     }
   }, [currentLocation])
 
   return (
     <div className="App">
-      <MapContext.Provider value={{ coords, setCoords, currentWeather, currentLocation, setIsDropdownVisible, setDropdownResults, searchValue, setSearchValue, setShowLandingMessage }}>
+      <MapContext.Provider value={{ coords, setCoords, currentWeather, currentLocation, setCurrentLocation, forecast, setIsDropdownVisible, setDropdownResults, searchValue, setSearchValue, setShowLandingMessage }}>
         {showLandingMessage && <LandingOverlay />}
         <Header />
         {isDropdownVisible &&
@@ -71,6 +85,7 @@ function App() {
           <TextContent />
           <Map />
         </Container>
+        <Footer />
       </MapContext.Provider>
     </div>
   );
