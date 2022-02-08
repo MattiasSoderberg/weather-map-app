@@ -31,29 +31,32 @@ const StyledLi = styled.li`
 `
 
 export default function Dropdown({ results }) {
-    const { setSearchValue, setIsDropdownVisible, setCurrentLocation } = useContext(MapContext)
+    const { setSearchValue, setIsDropdownVisible, setCoords } = useContext(MapContext)
 
     const handleOnClick = (result) => {
         setSearchValue(`${result.LocalizedName}, ${result.Country.LocalizedName}`)
-        console.log(`${result.LocalizedName}, ${result.Country.LocalizedName}`)
         setIsDropdownVisible(false)
 
-        const url = `${accuWeather_BASE_URL}/locations/v1/${result.Key}?apikey=${process.env.REACT_APP_API_KEY}&language=sv`
+        const url = `${accuWeather_BASE_URL}/locations/v1/${result.Key}?apikey=${process.env.REACT_APP_API_KEY}`
 
         fetch(url)
         .then(res => res.json())
-        .then(data => setCurrentLocation(data))
+        .then(data => setCoords({ lat: data.GeoPosition.Latitude, lng: data.GeoPosition.Longitude }))
 
         setSearchValue("")
     }
 
+    console.log(results)
+
     return (
         <DropdownContainer>
+            {results ?
             <StyledUl>
-                {results && results.map((result, index) => {
+                {results.map((result, index) => {
                     return <StyledLi key={index} onClick={e => handleOnClick(result)}>{result.LocalizedName}, {result.Country.LocalizedName}</StyledLi>
                 })}
             </StyledUl>
+            : <p><i>No results</i></p>}
         </DropdownContainer>
     )
 }

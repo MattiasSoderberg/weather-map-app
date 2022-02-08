@@ -9,7 +9,6 @@ const StyledContainer = styled.div`
     justify-content: ${props => props.justify};
     align-items: ${props => props.align};
     margin: ${props => props.margin}rem;
-    background: #f5f1df;
 `
 
 export default function Container(props) {
