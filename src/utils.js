@@ -37,3 +37,7 @@ export const getUserLocation = (setCoords) => {
 
     navigator.geolocation.getCurrentPosition(success, error, options)
 }
+
+export const convertKmToMPerHour = (speed) => {
+    return Math.round(((speed * 0.278) + Number.EPSILON) * 100) / 100
+}
