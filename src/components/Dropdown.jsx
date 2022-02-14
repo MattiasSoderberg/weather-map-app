@@ -19,6 +19,7 @@ const StyledUl = styled.ul`
 const StyledLi = styled.li`
     list-style: none;
     color: #f6f6f6;
+    font-size: 1.1rem;
     letter-spacing: 0.5px;
     cursor: pointer;
     padding: 0.7rem 0.4rem;
@@ -28,6 +29,13 @@ const StyledLi = styled.li`
     &:hover {
         background: #264653;
     }
+`
+const StyledParagraph = styled.p`
+    color: #f6f6f6;
+    font-size: 1.1rem;
+    letter-spacin: 0.5px;
+    padding: 0.7rem 0.4rem;
+    margin-left: 0.5rem;
 `
 
 export default function Dropdown({ results }) {
@@ -56,7 +64,7 @@ export default function Dropdown({ results }) {
                     return <StyledLi key={index} onClick={e => handleOnClick(result)}>{result.LocalizedName}, {result.Country.LocalizedName}</StyledLi>
                 })}
             </StyledUl>
-            : <p><i>No results</i></p>}
+            : <StyledParagraph><i>No results</i></StyledParagraph>}
         </DropdownContainer>
     )
 }
