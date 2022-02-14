@@ -13,9 +13,8 @@ const ColoredContainer = styled.div`
     justify-content: center;
     align-items: center;
     background: #${props => props.background};
-    // padding: 0.5rem 2.5rem;
-    //margin: 1rem;
-    gap: 0.5rem;
+    padding: 0.5rem 2.5rem;
+    gap: 0.3rem;
     border-radius: 2.5rem;
     box-shadow: 0 0 14px 1px #264653;
     transition: background ease 1s;
@@ -60,6 +59,7 @@ const StyledInfoTextContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    gap: 0.3rem;
     padding: 0 2rem;
 `
 const StyledInfoText = styled.p`
@@ -68,15 +68,17 @@ const StyledInfoText = styled.p`
     color: #060606;
 `
 const WindArrowIcon = styled(BsArrowUp)`
-    font-size: 1.2rem;
+    font-size: 1.7rem;
     transform: rotate(${props => props.deg}deg)
 `
-const IconContainer = styled.div`
-    transform: rotate(${props => props.deg}deg)
+const WindInfoContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 `
 const StyledImageLg = styled.img`
-    width: 100px;
-    height: 60px;
+    width: 120px;
+    height: 72px;
 `
 const ForecastContentContainer = styled.div`
     width: 100%;
@@ -123,10 +125,11 @@ export default function TextContent() {
                         <StyledInfoHeading>{currentWeather.Temperature.Metric.Value}&deg;{currentWeather.Temperature.Metric.Unit}</StyledInfoHeading>
                         <StyledInfoTextContainer>
                             <StyledInfoText>{currentWeather.WeatherText}</StyledInfoText>
-                            <StyledInfoText>Wind {convertKmToMPerHour(currentWeather.Wind.Speed.Metric.Value)} m/s
-                            <WindArrowIcon deg={currentWeather.Wind.Direction.Degrees}></WindArrowIcon>
-                            </StyledInfoText>
-                            {/* <IconContainer deg={currentWeather.Wind.Direction.Degrees}><BsArrowUp /></IconContainer> */}
+                            <WindInfoContainer>
+                                <StyledInfoText>Wind {convertKmToMPerHour(currentWeather.Wind.Speed.Metric.Value)} m/s
+                                </StyledInfoText>
+                                <WindArrowIcon deg={currentWeather.Wind.Direction.Degrees}></WindArrowIcon>
+                            </WindInfoContainer>
                         </StyledInfoTextContainer>
                     </ColoredContainer>
                     : <StyledInfoText>No Weather</StyledInfoText>}
