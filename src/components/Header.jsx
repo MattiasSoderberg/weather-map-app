@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { MapContext } from '../App'
 import { accuWeather_BASE_URL, getUserLocation } from '../utils'
@@ -63,6 +63,40 @@ const NavButton = styled(FormButton)`
 export default function Header() {
     const { searchValue, setSearchValue, setDropdownResults, setIsDropdownVisible, setCoords, setShowLandingMessage } = useContext(MapContext)
 
+    useEffect(() => {
+        const fetchData = () => {
+            const url = `${accuWeather_BASE_URL}/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${searchValue}`
+            fetch(url)
+                .then(res => {
+                    if (res.ok) {
+                        console.log(searchValue)
+                        return res.json()
+                    } else {
+                        console.log(res)
+                        throw new Error(res.statusText)
+                    }
+                })
+                .then(data => {
+                    if (data.length !== 0) {
+                        setDropdownResults(data)
+                    } else {
+                        setDropdownResults(null)
+                    }
+                    setIsDropdownVisible(true)
+                })
+        }
+
+        const timer = setTimeout(() => {
+            if (searchValue) {
+                fetchData()
+            } else {
+                setIsDropdownVisible(false)
+            }
+        }, 1000)
+
+        return () => clearTimeout(timer)
+    }, [searchValue, setDropdownResults, setIsDropdownVisible])
+
     const handleOnSubmit = (e) => {
         e.preventDefault()
 
@@ -76,36 +110,7 @@ export default function Header() {
     }
 
     const handleOnChange = (e) => {
-        const url = `${accuWeather_BASE_URL}/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${e.target.value}`
-
         setSearchValue(e.target.value)
-
-        if (e.target.value) {
-            // console.log(e.target.value)
-            setTimeout(() => {
-                fetch(url)
-                    .then(res => {
-                        if (res.ok) {
-                            // console.log(res)
-                            return res.json()
-                        } else {
-                            console.log(res)
-                            throw new Error(res.statusText)
-                        }
-                    })
-                    .then(data => {
-                        if (data.length !== 0) {
-                            setDropdownResults(data)
-                        } else {
-                            setDropdownResults(null)
-                        }
-                        setIsDropdownVisible(true)
-                        console.log(data)
-                    })
-            }, 1000)
-        } else {
-            setIsDropdownVisible(false)
-        }
     }
 
     return (
